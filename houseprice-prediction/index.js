@@ -37,7 +37,7 @@ async function trainModel(){
     model.add(tf.layers.dense({inputShape: [1],units: 1}))
     model.compile({
         loss: 'meanSquaredError',
-        optimizer: 'sgd'
+        optimizer: tf.train.sgd(0.1)
     })
 
     await model.fit(xs,ys,{
@@ -55,7 +55,7 @@ async function trainModel(){
     const output = model.predict(tf.tensor2d([[inputValue]]))
     const answer = await output.data()
     const unNormAnswer = (answer[0]*(labelMax-labelMin))+labelMin
-    console.log(unNormAnswer.toFixed(2))
+    console.log(Math.ceil(unNormAnswer.toFixed(2)))
 }
 
 trainModel()
